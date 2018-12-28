@@ -1,4 +1,4 @@
-const {app, BrowserWindow, Menu} = require('electron');
+const {app, BrowserWindow, Menu, globalShortcut} = require('electron');
 
 let win;
 
@@ -18,7 +18,7 @@ function createWindow() {
 			{label: "Save", click() {}},
 			{label: "Open", click() {}},
 			{type: "separator"},
-			{label: "Exit", click() { app.quit(); }}
+			{label: "Exit", click() { app.quit(); }, accelerator: process.platform == 'darwin' ? 'Option + Q' : 'Alt + Q'}
 		]
 	},
 	{
@@ -48,7 +48,22 @@ function createWindow() {
 	Menu.setApplicationMenu(menu);
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+	createWindow();
+
+	globalShortcut.register(process.platform == 'darwin' ? 'Option + 1' : 'Alt + 1', () => {
+		if (win.isMinimized()) {
+			win.restore();
+		}
+		else if (win.isFocused()) {
+			win.minimize();
+		}		
+	});
+});
+
+app.on('will-quit', () => {
+	globalShortcut.unregisterAll();
+});
 
 app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') {
