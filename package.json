@@ -1,0 +1,15 @@
+{
+  "name": "typewrite",
+  "version": "1.0.0",
+  "description": "TypeWrite away in a minimal and elegant editor.",
+  "main": "main.js",
+  "dependencies": {
+    "electron": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Valdemar Lorenzen",
+  "license": "ISC"
+}
